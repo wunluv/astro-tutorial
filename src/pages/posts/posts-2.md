@@ -1,4 +1,5 @@
 ---
+layout: ../../layouts/MarkdownPostLayout.astro
 title: 'My second blog post'
 pubDate: 2024:08:30
 description: 'This is the second post in my tutorial'
@@ -10,7 +11,6 @@ image:
 tags: ["astro", "blogging", "learning in public"]
 ---
 
-# My Second Blog Post
 
 Hear is all my content.
 
