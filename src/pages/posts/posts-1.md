@@ -2,14 +2,15 @@
 layout: ../../layouts/MarkdownPostLayout.astro
 
 title: 'My first blog post'
-pubDate: 2024:08:30
+pubDate: 2024-07-01
 description: 'This is the first post in my tutorial'
 author: 'San'
-
+titleColor: 'purple'
 image:
     url: 'https://docs.astro.build/assets/rose.webp'
     alt: 'The Astro logo on a dark background with a pink glow.'
 tags: ["astro", "blogging", "learning in public"]
+
 ---
 
 Hear is all my content.

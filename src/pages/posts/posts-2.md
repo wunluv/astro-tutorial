@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/MarkdownPostLayout.astro
 title: 'My second blog post'
-pubDate: 2024:08:30
+pubDate: 2024-07-02
 description: 'This is the second post in my tutorial'
 author: 'San'
 
