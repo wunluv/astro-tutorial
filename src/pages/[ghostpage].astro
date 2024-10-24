@@ -1,0 +1,25 @@
+---
+import { ghostClient } from '../lib/ghost';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Get the slug from the URL
+export async function getStaticPaths() {
+    const pages = await ghostClient.pages
+        .browse({ limit: 'all' })
+        .catch((err) => {
+            console.error(err);
+        });
+
+    return pages.map((page) => ({
+        params: { ghostpage: page.slug },
+        props: { page },
+    }));
+}
+
+// Get the page data based on the slug
+const { page } = Astro.props;
+---
+
+<BaseLayout pageTitle={page.title}>
+  <Fragment set:html={page.html} />
+</BaseLayout>

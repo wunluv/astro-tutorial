@@ -2,9 +2,32 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 const pageTitle = "Home Page";
 import Greeting from "../components/Greeting";
+
+
+import { ghostClient } from '../lib/ghost';
+const posts = await ghostClient.posts
+    .browse({
+        limit: 'all',
+    })
+    .catch((err) => {
+        console.error(err);
+    });
+
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <h2>My awesome blog subtitle</h2>
   <Greeting client:load messages={["Hej", "Hallo", "Hola", "Habari"]} />
+
+  <ul>
+        {
+            posts.map((post) => (
+                <a href={`${post.slug}`}>
+                    <li> {post.title} </li>
+                </a>
+            ))
+        }
+</ul>
+
 </BaseLayout>
+

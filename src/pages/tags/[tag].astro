@@ -1,33 +1,41 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import BlogPost from "../../components/BlogPost.astro";
+import { ghostClient } from '../../lib/ghost';
+
+// Ensure this function is correct and allPosts is defined within it
 export async function getStaticPaths() {
-  const allPosts = await Astro.glob("../posts/*.md");
-  const uniqueTags = [
-    ...new Set(allPosts.map((post) => post.frontmatter.tags).flat()),
-  ];
-  return uniqueTags.map((tag) => {
-    const filteredPosts = allPosts.filter((post) =>
-      post.frontmatter.tags.includes(tag)
-    );
+  const allTags = await ghostClient.tags.browse({ limit: 'all' });
+
+  return allTags.map((tag) => {
     return {
-      params: { tag },
-      props: { posts: filteredPosts },
+      params: { tag: tag.slug },
+      props: { tag },
     };
   });
 }
 
+// Use Astro's API to get the tag and posts
 const { tag } = Astro.params;
-const { posts } = Astro.props;
+const posts = await ghostClient.posts.browse({
+  limit: 'all',
+  filter: `tag:${tag}`,
+  include: 'authors,tags',
+}).catch((err) => {
+  console.error(err);
+});
 ---
 
-<BaseLayout pageTitle={tag}>
-  <p>Posts tagged with {tag}</p>
+<BaseLayout pageTitle={`Posts tagged with ${tag}`}>
+  <h2>Posts tagged with {tag}</h2>
   <ul>
-    {
-      posts.map((post) => (
-        <BlogPost url={post.url} title={post.frontmatter.title} />
-      ))
-    }
+    {posts.map((post) => (
+      <li key={post.id}>
+        <a href={`/${post.slug}`}>
+          <h3>{post.title}</h3>
+          <p>{post.excerpt}</p>
+          <p>By: {post.authors[0].name}</p>
+        </a>
+      </li>
+    ))}
   </ul>
 </BaseLayout>

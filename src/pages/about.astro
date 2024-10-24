@@ -1,4 +1,6 @@
 ---
+import LatestBlogs from "../components/latestBlogs.astro";
+
 const pageTitle = "About Me";
 const titleColor = "purple";
 
@@ -68,7 +70,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <p>My goal is not 3 days.</p>
     )
   }
-
+<h2>Most recent Blogs</h2>
+  <LatestBlogs />
   <script>
     import "../scripts/menu.js";
   </script>

@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { ghostClient } from '../lib/ghost';
+
+// Fetch all pages from Ghost
+const pages = await ghostClient.pages
+    .browse({ limit: 'all' })
+    .catch((err) => {
+        console.error(err);
+    });
+---
+
+<BaseLayout pageTitle="All Ghost Pages">
+  <h2>All Ghost Pages</h2>
+  <ul>
+    {pages.map((page) => (
+      <li key={page.id}>
+        <a href={`/${page.slug}`}>{page.title}</a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>
